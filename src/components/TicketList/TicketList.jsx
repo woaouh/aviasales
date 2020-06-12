@@ -13,13 +13,7 @@ export default function TicketList() {
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [activeBtnFilter, setActiveBtnFilter] = useState(1);
-  const [ filters, setFilters ] = useState([]);
-
-  // {title: 'Все'},
-  // {title: 'Без пересадок'},
-  // {title: '1 пересадка'},
-  // {title: '2 пересадки'},
-  // {title: 'Вс3 пересадкие'},
+  const [activeFilters, setActiveFilters] = useState([]);
 
   // Fetch Tickets
   useEffect(() => {
@@ -56,26 +50,36 @@ export default function TicketList() {
   // Checkbox filtration implementation
   useEffect(() => {
     const filterValues = [...new Set([ 'all', ...tickets.map(n => n.value)])];
-    setFilters(filterValues.map((n, i) => ({ active: false, value: n, id: i + 1 })));
+    setActiveFilters(filterValues.map((n, i) => ({ active: false, value: n, id: i + 1 })));
   }, [ tickets ]);
 
   const onFilterChange = ({ target: { checked: active, dataset: { value } } }) => {
-    const newFilters = filters.map(n => [ n.value, 'all' ].includes(value) ? { ...n, active } : n);
+    const newFilters = activeFilters.map(n => [ n.value, 'all' ].includes(value) ? { ...n, active } : n);
     const isAll = newFilters.filter(n => n.value !== 'all').every(n => n.active);
 
     newFilters.find(n => n.value === 'all').active = isAll;
 
-    setFilters(newFilters);
+    setActiveFilters(newFilters);
   };
 
-  const filteredValues = filters.filter(filter => filter.active).map(filter => filter.value);
+  const filteredValues = activeFilters.filter(filter => filter.active).map(filter => filter.value);
   const filteredTickets = tickets.filter(ticket => filteredValues.includes(ticket.value));
 
+  const filterNames =[
+    {title: 'Все'},
+    {title: 'Без пересадок'},
+    {title: '1 пересадка'},
+    {title: '2 пересадки'},
+    {title: '3 пересадки'},
+   ]
+
   function renderFilters() {
-    return filters.map((filter) => {
+    const sortedArr = activeFilters.sort((a, b) => a.value - b.value);
+    return sortedArr.map((filter, index) => {
       return (
         <Filter
           key={filter.id}
+          title={filterNames[index].title}
           {...filter}
           onChange={onFilterChange}
         />
@@ -116,8 +120,6 @@ export default function TicketList() {
       )
     })
   }
-
-  console.log(filters)
 
   return (
     <div className={classes.container}>
