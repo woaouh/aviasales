@@ -5,7 +5,10 @@ import TicketList from './components/TicketList/TicketList';
 export default function App() {
   return (
     <div className={classes.App}>
-      <TicketList />
+      <div className={classes.container}>
+        
+        <TicketList />
+      </div>
     </div>
   );
 }
