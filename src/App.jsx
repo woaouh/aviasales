@@ -6,7 +6,6 @@ export default function App() {
   return (
     <div className={classes.App}>
       <div className={classes.container}>
-        
         <TicketList />
       </div>
     </div>
