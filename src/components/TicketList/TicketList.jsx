@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Button from '../Button/Button';
-import Ticket from '../Ticket/Ticket';
-import Filter from '../Filter/Filter';
+import { Button } from '../Button/Button';
+import { Ticket } from '../Ticket/Ticket';
+import { Filter } from '../Filter/Filter';
 import classes from './TicketList.module.sass';
 
 const SEARCH_ID = 'https://front-test.beta.aviasales.ru/search';
 const API = 'https://front-test.beta.aviasales.ru/tickets?searchId=';
 
-export default function TicketList() {
+export function TicketList() {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -21,14 +21,19 @@ export default function TicketList() {
       try {
         const searchIdResponse = await axios.get(SEARCH_ID);
         const response = await axios.get(API + searchIdResponse.data.searchId);
-        const tickets = Object.keys(response.data.tickets).map((ticket) => response.data.tickets[ticket]);
+        const tickets = Object.keys(response.data.tickets).map(
+          (ticket) => response.data.tickets[ticket]
+        );
         // Set value from stops.length for appropriate filtering
-        const result = tickets.map((n, i) => ({ 
-          ...n, 
-          value: n.segments[0].stops.length === n.segments[1].stops.length ? n.segments[0].stops.length.toString() : 'all', 
-          id: i + 1 
-        }))
-        setTickets(result.sort((a, b) => a.price - b.price))
+        const result = tickets.map((n, i) => ({
+          ...n,
+          value:
+            n.segments[0].stops.length === n.segments[1].stops.length
+              ? n.segments[0].stops.length.toString()
+              : 'all',
+          id: i + 1,
+        }));
+        setTickets(result.sort((a, b) => a.price - b.price));
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -49,9 +54,17 @@ export default function TicketList() {
 
   // Checkbox filtration implementation
   useEffect(() => {
-    const filterValues = [...new Set([ 'all', ...tickets.map(ticket => ticket.value)])];
-    setActiveFilters(filterValues.map((value, i) => ({ active: true, value: value, id: i + 1 })));
-  }, [ tickets ]);
+    const filterValues = [
+      ...new Set(['all', ...tickets.map((ticket) => ticket.value)]),
+    ];
+    setActiveFilters(
+      filterValues.map((value, i) => ({
+        active: true,
+        value: value,
+        id: i + 1,
+      }))
+    );
+  }, [tickets]);
 
   const onFilterChange = ({
     target: {
@@ -59,9 +72,8 @@ export default function TicketList() {
       dataset: { value },
     },
   }) => {
-    const newFilters = activeFilters
-      .map((filter) => [filter.value, 'all']
-      .includes(value) ? { ...filter, active } : filter
+    const newFilters = activeFilters.map((filter) =>
+      [filter.value, 'all'].includes(value) ? { ...filter, active } : filter
     );
     const isAll = newFilters
       .filter((filter) => filter.value !== 'all')
@@ -72,8 +84,12 @@ export default function TicketList() {
     setActiveFilters(newFilters);
   };
 
-  const filteredValues = activeFilters.filter(filter => filter.active).map(filter => filter.value);
-  const filteredTickets = tickets.filter(ticket => filteredValues.includes(ticket.value));
+  const filteredValues = activeFilters
+    .filter((filter) => filter.active)
+    .map((filter) => filter.value);
+  const filteredTickets = tickets.filter((ticket) =>
+    filteredValues.includes(ticket.value)
+  );
 
   const filterNames = [
     { title: 'Все' },
@@ -115,21 +131,32 @@ export default function TicketList() {
   }
 
   function setActiveClass(num) {
-    return activeBtnFilter === num ? 'active' : ' ';
+    return activeBtnFilter === num ? 'active' : '';
   }
 
   const buttons = [
-    {title: 'Самый дешевый', className: setActiveClass(1), onClick: onCheapestHandler},
-    {title: 'Самый быстрый', className: setActiveClass(2), onClick: onFastestHandler},
+    {
+      title: 'Самый дешевый',
+      className: setActiveClass(1),
+      onClick: onCheapestHandler,
+      id: 1,
+    },
+    {
+      title: 'Самый быстрый',
+      className: setActiveClass(2),
+      onClick: onFastestHandler,
+      id: 2,
+    },
   ];
 
   function renderButtons() {
-    return buttons.map((btn, index) => {
+    return buttons.map((btn) => {
       return (
         <Button
-          key={index}
+          key={btn.id}
           title={btn.title}
           className={btn.className}
+          isActive={btn.isActive}
           onClick={btn.onClick}
         />
       );
@@ -137,7 +164,7 @@ export default function TicketList() {
   }
 
   return (
-    <div className={classes.container}>
+    <div className={classes.Container}>
       <div>
         <ul className={classes.Filters}>
           <h2>Количество пересадок</h2>
@@ -147,7 +174,7 @@ export default function TicketList() {
       <div>
         {renderButtons()}
         <ul className={classes.TicketList}>
-          {isError && <div>Something went wrong ...</div>}
+          {isError && <div>Something went wrong...</div>}
           {loading ? <div>Loading...</div> : renderTickets()}
         </ul>
       </div>

@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from './Filter.module.sass';
 
-export default function Filter(props) {
+export function Filter(props) {
   return (
-    <li className={classes.Filter}>
-      <label className='filter'>
+    <li>
+      <label className={classes.Filter}>
         <input
           type='checkbox'
           checked={props.active}

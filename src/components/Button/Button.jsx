@@ -1,9 +1,14 @@
 import React from 'react';
-import './Button.sass';
+import classnames from 'classnames';
+import classes from './Button.module.sass';
 
-export default function Button(props) {
+export function Button(props) {
+  const activeClass = props.className === 'active' ? true : false;
   return (
-    <button className={`btn ${props.className}`} onClick={props.onClick}>
+    <button
+      className={classnames(classes.Btn, { [classes.Active]: activeClass })}
+      onClick={props.onClick}
+    >
       {props.title}
     </button>
   );

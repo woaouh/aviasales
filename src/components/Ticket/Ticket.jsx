@@ -1,7 +1,8 @@
 import React from 'react';
+import Pluralize from 'plural-ru';
 import classes from './Ticket.module.sass';
 
-export default function Ticket(props) {
+export function Ticket(props) {
   // Convert duration minutes to 00ч 00м time format
   function convertMinToTime(mins) {
     let h = Math.floor(mins / 60);
@@ -18,17 +19,6 @@ export default function Ticket(props) {
     h = h < 10 ? '0' + h : h;
     m = m < 10 ? '0' + m : m;
     return `${h}:${m}`;
-  }
-
-  // Imlement correct word by number of lay owers in array
-  function pickCorrectWordEndings(length) {
-    if (length > 1 && length < 5) {
-      return 'пересадки';
-    } else if (length > 5 || length === 0) {
-      return 'пересадοк';
-    } else {
-      return 'пересадка';
-    }
   }
 
   function renderSegments() {
@@ -50,7 +40,15 @@ export default function Ticket(props) {
             <p>{convertMinToTime(segment.duration)}</p>
           </li>
           <li>
-            <h3>{`${segment.stops.length} ${pickCorrectWordEndings(segment.stops.length)}`}</h3>
+            <h3>
+              {`${segment.stops.length} 
+              ${Pluralize(
+                segment.stops.length,
+                'пересадка',
+                'пересадки',
+                'пересадοк'
+              )}`}
+            </h3>
             <p>{segment.stops.join(', ')}</p>
           </li>
         </ul>
@@ -61,7 +59,7 @@ export default function Ticket(props) {
   return (
     <li className={classes.Ticket}>
       <div className={classes.header}>
-        <div className={classes.price}>{props.price} P</div>
+        <div className={classes.price}>{props.price} &#8381;</div>
         <div>{props.carrier}</div>
       </div>
       {renderSegments()}
