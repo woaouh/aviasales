@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { fetchTickets } from '../../fetch/fetchTickets';
 import { Button } from '../Button/Button';
 import { Ticket } from '../Ticket/Ticket';
 import { Filter } from '../Filter/Filter';
 import classes from './TicketList.module.sass';
-
-const SEARCH_ID = 'https://front-test.beta.aviasales.ru/search';
-const API = 'https://front-test.beta.aviasales.ru/tickets?searchId=';
 
 export function TicketList() {
   const [tickets, setTickets] = useState([]);
@@ -15,32 +12,16 @@ export function TicketList() {
   const [activeBtnFilter, setActiveBtnFilter] = useState(1);
   const [activeFilters, setActiveFilters] = useState([]);
 
-  // Fetch Tickets
   useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        const searchIdResponse = await axios.get(SEARCH_ID);
-        const response = await axios.get(API + searchIdResponse.data.searchId);
-        const tickets = Object.keys(response.data.tickets).map(
-          (ticket) => response.data.tickets[ticket]
-        );
-        // Set value from stops.length for appropriate filtering
-        const result = tickets.map((n, i) => ({
-          ...n,
-          value:
-            n.segments[0].stops.length === n.segments[1].stops.length
-              ? n.segments[0].stops.length.toString()
-              : 'all',
-          id: i + 1,
-        }));
-        setTickets(result.sort((a, b) => a.price - b.price));
+    fetchTickets()
+      .then((result) => {
+        setTickets(result);
         setLoading(false);
-      } catch (error) {
-        setLoading(false);
+      })
+      .catch(() => {
         setIsError(true);
-      }
-    };
-    fetchTickets();
+        setLoading(false);
+      });
   }, []);
 
   function renderTickets() {
