@@ -41,5 +41,5 @@ export function SortButtons() {
     });
   }
 
-  return <div>{renderButtons()}</div>;
+  return <div className={classes.BtnGroup}>{renderButtons()}</div>;
 }
