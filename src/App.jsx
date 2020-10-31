@@ -1,13 +1,22 @@
 import React from 'react';
 import classes from './App.module.sass';
-import { TicketList } from './components/TicketList/TicketList';
+import { Filters } from './features/tickets/Filters';
 
-export function App() {
+import { SortButtons } from './features/tickets/SortButtons';
+import { TicketsList } from './features/tickets/TicketsList';
+
+function App() {
   return (
-    <div className={classes.App}>
-      <div className={classes.Container}>
-        <TicketList />
+    <div className={classes.Container}>
+      <div>
+        <Filters />
+      </div>
+      <div>
+        <SortButtons />
+        <TicketsList />
       </div>
     </div>
   );
 }
+
+export default App;
