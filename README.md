@@ -16,4 +16,6 @@ Added Classnames package for joining class names together instead of hand approa
 
 UPD: Recoded the project with Redux. Removed axios.
 
-https://suspicious-babbage-2e7bb6.netlify.app
+Link to the test-task: https://github.com/KosyanMedia/test-tasks/tree/master/aviasales_frontend
+
+Implemented Project: https://suspicious-babbage-2e7bb6.netlify.app
