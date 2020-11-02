@@ -10,7 +10,7 @@ By default tickets are sorted by price and button "Самый дешевый" is
 
 There is a filter block on the left side where user can filter tickets by number of connections. If there is no active filter we notify user appropriately.
 
-Date processing was implemented without any packages. After revie date-fns was added instead of hand approach.
+Date processing was implemented without any packages. Date-fns was added instead of hand approach.
 For pluralisation was added Plural-RU package instead of hand approach.
 Added Classnames package for joining class names together instead of hand approach.
 
