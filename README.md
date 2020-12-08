@@ -18,4 +18,4 @@ UPD: Recoded the project with Redux. Removed axios.
 
 Link to the test-task: https://github.com/KosyanMedia/test-tasks/tree/master/aviasales_frontend
 
-Implemented Project: https://suspicious-babbage-2e7bb6.netlify.app
+Implemented Project: https://reverent-mayer-a8d472.netlify.app
