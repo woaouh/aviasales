@@ -13,7 +13,7 @@ export function Ticket({ price, carrier, segments }) {
     <li className={classes.Ticket}>
       <div className={classes.header}>
         <div className={classes.price}>{price} &#8381;</div>
-        <div>{carrier}</div>
+        <img src={`https://pics.avs.io/99/36/${carrier}.png`} alt="Avia Company Logo"/>
       </div>
       {/* Render Segments */}
       {segments.map((segment, index) => {

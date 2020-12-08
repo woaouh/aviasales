@@ -20,6 +20,13 @@ export function TicketsList() {
     }
   }, [ticketsStatus, dispatch]);
 
+  function allClosed() {
+    // If length of active filtes ==== 0, show the message
+    const all = [];
+    activeFilters.map((i) => (i.active ? all.push(i.active) : ''));
+    return all.length;
+  }
+
   let content;
 
   if (ticketsStatus === 'loading') {
@@ -42,16 +49,20 @@ export function TicketsList() {
       });
     }
 
-    const filteredValues = activeFilters
-      .filter((filter) => filter.active)
-      .map((filter) => filter.value);
-    filteredTickets = sortedTickets.filter((ticket) =>
-      filteredValues.includes(ticket.transfer)
-    );
+    if (!allClosed()) {
+      content = <div>There are no active filters</div>;
+    } else {
+      const filteredValues = activeFilters
+        .filter((filter) => filter.active)
+        .map((filter) => filter.value);
+      filteredTickets = sortedTickets.filter((ticket) =>
+        filteredValues.includes(ticket.transfer)
+      );
 
-    content = filteredTickets
-      .slice(0, 10)
-      .map((ticket) => <Ticket key={ticket.id} {...ticket} />);
+      content = filteredTickets
+        .slice(0, 10)
+        .map((ticket) => <Ticket key={ticket.id} {...ticket} />);
+    }
   }
 
   return <ul className={classes.TicketsList}>{content}</ul>;
