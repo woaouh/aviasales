@@ -16,6 +16,7 @@ export function Ticket({ price, carrier, segments }) {
         <img src={`https://pics.avs.io/99/36/${carrier}.png`} alt="Avia Company Logo"/>
       </div>
       {/* Render Segments */}
+      <div className={classes.descriptionContainer}>
       {segments.map((segment, index) => {
         const segmentId = index + 1;
         return (
@@ -49,6 +50,7 @@ export function Ticket({ price, carrier, segments }) {
           </ul>
         );
       })}
+      </div>
     </li>
   );
 }
