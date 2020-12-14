@@ -29,12 +29,10 @@ export default function Ticket({ price, carrier, segments }) {
             <ul className={classes.description} key={segmentId}>
               <li>
                 <h3>
-                  $
                   {segment.origin}
                   {' '}
                   -
                   {' '}
-                  $
                   {segment.destination}
                 </h3>
                 <p>
