@@ -3,9 +3,9 @@ import classes from './App.module.sass';
 
 import { ReactComponent as Logo } from './logo.svg';
 
-import { Filters } from './features/tickets/Filters';
-import { SortButtons } from './features/tickets/SortButtons';
-import { TicketsList } from './features/tickets/TicketsList';
+import { Filters } from '../Filters/Filters';
+import { SortButtons } from '../SortButtons/SortButtons';
+import { TicketsList } from '../TicketsList/TicketsList';
 
 function App() {
   return (

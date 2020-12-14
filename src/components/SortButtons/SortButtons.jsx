@@ -4,7 +4,7 @@ import classes from './SortButtons.module.sass';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { sortedByCheapest, sortedByFastest } from '../tickets/ticketsSlice';
+import { sortedByCheapest, sortedByFastest } from '../../redux/ticketsSlice';
 
 export function SortButtons() {
   const dispatch = useDispatch();

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import classes from './Filters.module.sass';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { filteredTickets } from './ticketsSlice';
+import { filteredTickets } from '../../redux/ticketsSlice';
 
 export function Filters() {
   const dispatch = useDispatch();

@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import classes from './TicketsList.module.sass';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Ticket } from './Ticket';
+import { Ticket } from '../Ticket/Ticket';
 
-import { fetchTickets } from './ticketsSlice';
+import { fetchTickets } from '../../redux/ticketsSlice';
 
 export function TicketsList() {
   const dispatch = useDispatch();
