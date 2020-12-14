@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import classes from './TicketsList.module.sass';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Ticket } from '../Ticket/Ticket';
+import classes from './TicketsList.module.sass';
+
+import Ticket from '../Ticket/Ticket';
 
 import { fetchTickets } from '../../redux/ticketsSlice';
 
-export function TicketsList() {
+export default function TicketsList() {
   const dispatch = useDispatch();
   const tickets = useSelector((state) => state.tickets.tickets);
   const sort = useSelector((state) => state.tickets.sort);
@@ -30,9 +31,14 @@ export function TicketsList() {
   let content;
 
   if (ticketsStatus === 'loading') {
-    content = <div className='loader'>Loading...</div>;
+    content = <div className="loader">Loading...</div>;
   } else if (ticketsStatus === 'failed') {
-    content = <div>{error}. Try to refresh the page</div>;
+    content = (
+      <div>
+        {error}
+        . Try to refresh the page
+      </div>
+    );
   } else if (ticketsStatus === 'succeeded') {
     let sortedTickets;
     let filteredTickets;
@@ -40,13 +46,11 @@ export function TicketsList() {
     if (sort === 'price') {
       sortedTickets = tickets.slice().sort((a, b) => a.price - b.price);
     } else if (sort === 'duration') {
-      sortedTickets = tickets.slice().sort((a, b) => {
-        return (
-          a.segments[0].duration +
-          a.segments[1].duration -
-          (b.segments[0].duration + b.segments[1].duration)
-        );
-      });
+      sortedTickets = tickets.slice().sort((a, b) => (
+        a.segments[0].duration
+        + a.segments[1].duration
+        - (b.segments[0].duration + b.segments[1].duration)
+      ));
     }
 
     if (!allClosed()) {
@@ -55,13 +59,18 @@ export function TicketsList() {
       const filteredValues = activeFilters
         .filter((filter) => filter.active)
         .map((filter) => filter.value);
-      filteredTickets = sortedTickets.filter((ticket) =>
-        filteredValues.includes(ticket.transfer)
-      );
+      filteredTickets = sortedTickets.filter((ticket) => filteredValues.includes(ticket.transfer));
 
       content = filteredTickets
         .slice(0, 10)
-        .map((ticket) => <Ticket key={ticket.id} {...ticket} />);
+        .map((ticket) => (
+          <Ticket
+            key={ticket.id}
+            price={ticket.price}
+            carrier={ticket.carrier}
+            segments={ticket.segments}
+          />
+        ));
     }
   }
 

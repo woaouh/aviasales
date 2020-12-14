@@ -1,12 +1,12 @@
 import React from 'react';
-import classnames from 'classnames';
-import classes from './SortButtons.module.sass';
-
 import { useDispatch, useSelector } from 'react-redux';
+import classnames from 'classnames';
+
+import classes from './SortButtons.module.sass';
 
 import { sortedByCheapest, sortedByFastest } from '../../redux/ticketsSlice';
 
-export function SortButtons() {
+export default function SortButtons() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.tickets.sort);
 
@@ -26,19 +26,18 @@ export function SortButtons() {
   ];
 
   function renderButtons() {
-    return buttons.map((btn) => {
-      return (
-        <button
-          key={btn.id}
-          className={classnames(classes.Btn, {
-            [classes.Active]: btn.className,
-          })}
-          onClick={btn.onClick}
-        >
-          {btn.title}
-        </button>
-      );
-    });
+    return buttons.map((btn) => (
+      <button
+        key={btn.id}
+        type="button"
+        className={classnames(classes.Btn, {
+          [classes.Active]: btn.className,
+        })}
+        onClick={btn.onClick}
+      >
+        {btn.title}
+      </button>
+    ));
   }
 
   return <div className={classes.BtnGroup}>{renderButtons()}</div>;

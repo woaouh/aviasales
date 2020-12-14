@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -21,10 +22,10 @@ export const fetchTickets = createAsyncThunk(
   'tickets/fetchTickets',
   async () => {
     const searchIdResponse = await fetch(SEARCH_ID_API)
-      .then((response) => response.json())
+      .then((rspns) => rspns.json())
       .then((data) => data.searchId);
     const response = await fetch(API + searchIdResponse)
-      .then((response) => response.json())
+      .then((rspns) => rspns.json())
       .then((data) => data.tickets);
     // Calculate number of transfers for appropriate filtering
     const result = response.map((n) => ({
@@ -36,17 +37,17 @@ export const fetchTickets = createAsyncThunk(
           : 'all',
     }));
     return result;
-  }
+  },
 );
 
 export const ticketsSlice = createSlice({
   name: 'tickets',
   initialState,
   reducers: {
-    sortedByFastest(state, action) {
+    sortedByFastest(state) {
       state.sort = 'duration';
     },
-    sortedByCheapest(state, action) {
+    sortedByCheapest(state) {
       state.sort = 'price';
     },
     filteredTickets(state, action) {
@@ -54,7 +55,7 @@ export const ticketsSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchTickets.pending]: (state, action) => {
+    [fetchTickets.pending]: (state) => {
       state.status = 'loading';
     },
     [fetchTickets.fulfilled]: (state, action) => {

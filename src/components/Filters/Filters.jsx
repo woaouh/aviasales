@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import classes from './Filters.module.sass';
 import { useDispatch, useSelector } from 'react-redux';
+import classes from './Filters.module.sass';
 
 import { filteredTickets } from '../../redux/ticketsSlice';
 
-export function Filters() {
+export default function Filters() {
   const dispatch = useDispatch();
   const tickets = useSelector((state) => state.tickets.tickets);
   const activeFilters = useSelector((state) => state.tickets.activeFilters);
@@ -16,7 +16,7 @@ export function Filters() {
     ].sort((a, b) => a - b);
 
     dispatch(
-      filteredTickets(filterValues.map((value) => ({ active: true, value })))
+      filteredTickets(filterValues.map((value) => ({ active: true, value }))),
     );
   }, [tickets, dispatch]);
 
@@ -26,9 +26,7 @@ export function Filters() {
       dataset: { transfer },
     },
   }) => {
-    const newFilters = activeFilters.map((filter) =>
-      [filter.value, 'all'].includes(transfer) ? { ...filter, active } : filter
-    );
+    const newFilters = activeFilters.map((filter) => ([filter.value, 'all'].includes(transfer) ? { ...filter, active } : filter));
     const isAll = newFilters
       .filter((filter) => filter.value !== 'all')
       .every((filter) => filter.active);
@@ -53,21 +51,20 @@ export function Filters() {
   ];
 
   function renderFilters() {
-    return activeFilters.map((filter, index) => {
-      return (
-        <li key={filter.value + index}>
-          <label className={classes.Filter}>
-            <input
-              type='checkbox'
-              checked={filter.active}
-              data-transfer={filter.value}
-              onChange={onFilterChange}
-            />
-            {filterNames[index].title}
-          </label>
-        </li>
-      );
-    });
+    return activeFilters.map((filter, index) => (
+      <li key={filter.value}>
+        <label className={classes.Filter} htmlFor={filter.value}>
+          <input
+            type="checkbox"
+            checked={filter.active}
+            data-transfer={filter.value}
+            onChange={onFilterChange}
+            id={filter.value}
+          />
+          {filterNames[index].title}
+        </label>
+      </li>
+    ));
   }
 
   return (
