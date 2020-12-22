@@ -1,24 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classes from './Filters.module.sass';
 
 import { filteredTickets } from '../../redux/ticketsSlice';
 
+const filterNames = [
+  { title: 'Все' },
+  { title: 'Без пересадок' },
+  { title: '1 пересадка' },
+  { title: '2 пересадки' },
+  { title: '3 пересадки' },
+];
+
 export default function Filters() {
   const dispatch = useDispatch();
-  const tickets = useSelector((state) => state.tickets.tickets);
   const activeFilters = useSelector((state) => state.tickets.activeFilters);
-
-  // Checkbox filtration implementation
-  useEffect(() => {
-    const filterValues = [
-      ...new Set(['all', ...tickets.map((ticket) => ticket.transfer)]),
-    ].sort((a, b) => a - b);
-
-    dispatch(
-      filteredTickets(filterValues.map((value) => ({ active: true, value }))),
-    );
-  }, [tickets, dispatch]);
 
   const onFilterChange = ({
     target: {
@@ -41,14 +37,6 @@ export default function Filters() {
 
     dispatch(filteredTickets(resultFilters));
   };
-
-  const filterNames = [
-    { title: 'Все' },
-    { title: 'Без пересадок' },
-    { title: '1 пересадка' },
-    { title: '2 пересадки' },
-    { title: '3 пересадки' },
-  ];
 
   function renderFilters() {
     return activeFilters.map((filter, index) => (
