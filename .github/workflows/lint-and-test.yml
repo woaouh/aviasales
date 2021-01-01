@@ -8,12 +8,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-      - name: install packages
       - run: make install
-
-      - name: lint code
       - run: make lint
-
-      - name: test code
       - run: make test
