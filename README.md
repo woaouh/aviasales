@@ -1,4 +1,4 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/467a8656400706c3db22/maintainability)](https://codeclimate.com/github/woaouh/aviasales/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/467a8656400706c3db22/maintainability)](https://codeclimate.com/github/woaouh/aviasales/maintainability) [![Lint and Test](https://github.com/woaouh/aviasales/workflows/lint-and-test/badge.svg)](https://github.com/woaouh/aviasales/actions)
 
 # Test task for Front end developer from Aviasales
 
