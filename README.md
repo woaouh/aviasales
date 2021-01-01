@@ -2,10 +2,10 @@
 
 # Test task for Front end developer from Aviasales
 
-*To run project locally:*
+*To run the project locally:*
 ```
-$ npm install
-$ npm start
+$ make install
+$ make start
 ```
 
 ## Project implementation
