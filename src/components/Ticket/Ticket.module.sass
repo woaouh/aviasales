@@ -16,33 +16,6 @@
       font-weight: 600
       font-size: 24px
       line-height: 24px
-  .description
-    list-style: none
-    display: grid
-    grid-template-columns: repeat(3, 1fr)
-    margin: 0
-    padding: 0
-    &:not(:last-child)
-      margin-bottom: 10px
-    li
-      &:nth-child(2)
-        text-align: center
-      &:last-child
-        text-align: right
-    h3
-      color: #A0B0B9
-      letter-spacing: 0.5px
-      text-transform: uppercase
-      font-weight: 600
-      font-size: 12px
-      line-height: 18px
-      margin: 0
-    p
-      color: #4A4A4A
-      font-weight: 600
-      font-size: 14px
-      line-height: 21px
-      margin: 0
 
 @media ( max-width: 780px )
   .Ticket
@@ -51,23 +24,7 @@
 
 @media ( max-width: 420px )
   .Ticket
-    .descriptionContainer
+    .SegmentsContainer
       display: grid
       grid-template-columns: repeat(2, 1fr)
-    .description
-      grid-template-columns: repeat(1, 1fr)
-      &:first-child
-        li
-          &:not(:last-child)
-            margin-bottom: 5px
-          &:nth-child(2),
-          &:last-child
-            text-align: left
-      &:last-child
-        li
-          &:not(:last-child)
-            margin-bottom: 5px
-          &:first-child, 
-          &:nth-child(2), 
-          &:last-child
-            text-align: right
+    
