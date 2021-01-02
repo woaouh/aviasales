@@ -9,11 +9,11 @@ import TicketsList from '../TicketsList/TicketsList';
 
 function App() {
   return (
-    <div>
-      <div className={classes.Logo}>
+    <main>
+      <header className={classes.Logo}>
         <Logo />
-      </div>
-      <div className={classes.Container}>
+      </header>
+      <section className={classes.Container}>
         <div>
           <Filters />
         </div>
@@ -21,8 +21,8 @@ function App() {
           <SortButtons />
           <TicketsList />
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 

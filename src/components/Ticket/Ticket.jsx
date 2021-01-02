@@ -19,9 +19,7 @@ export default function Ticket({ price, carrier, segments }) {
       </div>
       {/* Render Segments */}
       <div className={classes.SegmentsContainer}>
-        {segments.map((segment) => (
-          <Segment segment={segment} key={segment.date} />
-        ))}
+        {segments.map((segment) => <Segment segment={segment} key={segment.date} />)}
       </div>
     </li>
   );

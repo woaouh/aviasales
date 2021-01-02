@@ -1,7 +1,5 @@
 import { add } from 'date-fns';
 
-export const getDepartureDate = (date) => new Date(date);
-
 // Calc Arrival time through adding minutes of flight duration to the Departure Date
 export function getArrivalDate(date, duration) {
   return add(new Date(date), {

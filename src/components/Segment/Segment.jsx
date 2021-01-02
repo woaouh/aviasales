@@ -4,10 +4,12 @@ import Pluralize from 'plural-ru';
 
 import classes from './Segment.module.sass';
 import {
-  convertDateToTime, convertMinsToTime, getArrivalDate, getDepartureDate,
+  convertDateToTime, convertMinsToTime, getArrivalDate,
 } from '../../helpers/helpers';
 
 export default function Segment({ segment }) {
+  const departureDate = convertDateToTime(new Date(segment.date));
+  const arrivalDate = convertDateToTime(getArrivalDate(segment.date, segment.duration));
   return (
     <ul className={classes.Segment} key={segment.date}>
       <li>
@@ -17,9 +19,9 @@ export default function Segment({ segment }) {
           {segment.destination}
         </h3>
         <p>
-          {`${convertDateToTime(getDepartureDate(segment.date))}`}
+          {departureDate}
           {' - '}
-          {`${convertDateToTime(getArrivalDate(segment.date, segment.duration))}`}
+          {arrivalDate}
         </p>
       </li>
       <li>
