@@ -10,10 +10,9 @@ import sortTickets from '../../redux/selectors';
 
 export default function TicketsList() {
   const dispatch = useDispatch();
-  const ticketsEntities = useSelector(({ tickets }) => tickets.entities);
-  const activeFilters = useSelector(({ tickets }) => tickets.activeFilters);
-  const status = useSelector(({ tickets }) => tickets.status);
-  const error = useSelector(({ tickets }) => tickets.error);
+  const {
+    entities, activeFilters, status, error,
+  } = useSelector(({ tickets }) => tickets);
   const sortedTicketsIds = useSelector(sortTickets);
 
   useEffect(() => {
@@ -36,9 +35,9 @@ export default function TicketsList() {
       content = sortedTicketsIds.slice(0, 10).map((id) => (
         <Ticket
           key={id}
-          price={ticketsEntities[id].price}
-          carrier={ticketsEntities[id].carrier}
-          segments={ticketsEntities[id].segments}
+          price={entities[id].price}
+          carrier={entities[id].carrier}
+          segments={entities[id].segments}
         />
       ));
     }
