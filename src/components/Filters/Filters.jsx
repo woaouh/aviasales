@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import classes from './Filters.module.sass';
 
 import { filteredTickets } from '../../redux/ticketsSlice';
@@ -14,25 +15,13 @@ const filterNames = [
 
 export default function Filters() {
   const dispatch = useDispatch();
-  const activeFilters = useSelector((state) => state.tickets.activeFilters);
+  const activeFilters = useSelector(({ tickets }) => tickets.activeFilters);
 
-  const onFilterChange = ({
-    target: {
-      checked: active,
-      dataset: { transfer },
-    },
-  }) => {
+  const onFilterChange = ({ target: { checked: active, dataset: { transfer } } }) => {
     const newFilters = activeFilters.map((filter) => ([filter.value, 'all'].includes(transfer) ? { ...filter, active } : filter));
-    const isAll = newFilters
-      .filter((filter) => filter.value !== 'all')
-      .every((filter) => filter.active);
+    const isAll = newFilters.filter((filter) => filter.value !== 'all').every((filter) => filter.active);
 
-    // TODO: Have to fix - Cannot assign to read only property. From isAll we get true/false
-    // Fixed. Left this comment here to remember
-    const resultFilters = Object.assign([...newFilters], {
-      0: { active: true, value: 'all' },
-    });
-
+    const resultFilters = Object.assign([...newFilters], { 0: { active: true, value: 'all' } });
     resultFilters.find((filter) => filter.value === 'all').active = isAll;
 
     dispatch(filteredTickets(resultFilters));

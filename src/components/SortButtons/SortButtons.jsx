@@ -8,7 +8,7 @@ import { sortedByCheapest, sortedByFastest } from '../../redux/ticketsSlice';
 
 export default function SortButtons() {
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.tickets.sort);
+  const sort = useSelector(({ tickets }) => tickets.sort);
 
   const buttons = [
     {
