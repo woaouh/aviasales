@@ -6,23 +6,24 @@ import classes from './TicketsList.module.sass';
 import Ticket from '../Ticket/Ticket';
 
 import { fetchTickets } from '../../redux/ticketsSlice';
+import sortTickets from '../../redux/selectors';
 
 export default function TicketsList() {
   const dispatch = useDispatch();
-  const tickets = useSelector((state) => state.tickets.tickets);
-  const sort = useSelector((state) => state.tickets.sort);
-  const activeFilters = useSelector((state) => state.tickets.activeFilters);
-  const ticketsStatus = useSelector((state) => state.tickets.status);
-  const error = useSelector((state) => state.tickets.error);
+  const ticketsEntities = useSelector(({ tickets }) => tickets.entities);
+  const activeFilters = useSelector(({ tickets }) => tickets.activeFilters);
+  const status = useSelector(({ tickets }) => tickets.status);
+  const error = useSelector(({ tickets }) => tickets.error);
+  const sortedTicketsIds = useSelector(sortTickets);
 
   useEffect(() => {
-    if (ticketsStatus === 'idle') {
+    if (status === 'idle') {
       dispatch(fetchTickets());
     }
-  }, [ticketsStatus, dispatch]);
+  }, [status, dispatch]);
 
+  // If length of active filtes === 0, show the message
   function allClosed() {
-    // If length of active filtes ==== 0, show the message
     const all = [];
     activeFilters.map((i) => (i.active ? all.push(i.active) : ''));
     return all.length;
@@ -30,45 +31,28 @@ export default function TicketsList() {
 
   let content;
 
-  if (ticketsStatus === 'loading') {
+  if (status === 'loading') {
     content = <div className="loader">Loading...</div>;
-  } else if (ticketsStatus === 'failed') {
+  } else if (status === 'failed') {
     content = (
       <div>
         {error}
-        . Try to refresh the page
+        {' '}
+        Try to refresh the page
       </div>
     );
-  } else if (ticketsStatus === 'succeeded') {
-    let sortedTickets;
-    let filteredTickets;
-
-    if (sort === 'price') {
-      sortedTickets = tickets.slice().sort((a, b) => a.price - b.price);
-    } else if (sort === 'duration') {
-      sortedTickets = tickets.slice().sort((a, b) => (
-        a.segments[0].duration
-        + a.segments[1].duration
-        - (b.segments[0].duration + b.segments[1].duration)
-      ));
-    }
-
+  } else if (status === 'succeeded') {
     if (!allClosed()) {
       content = <div>There are no active filters</div>;
     } else {
-      const filteredValues = activeFilters
-        .filter((filter) => filter.active)
-        .map((filter) => filter.value);
-      filteredTickets = sortedTickets.filter((ticket) => filteredValues.includes(ticket.transfer));
-
-      content = filteredTickets
+      content = sortedTicketsIds
         .slice(0, 10)
-        .map((ticket) => (
+        .map((id) => (
           <Ticket
-            key={ticket.id}
-            price={ticket.price}
-            carrier={ticket.carrier}
-            segments={ticket.segments}
+            key={id}
+            price={ticketsEntities[id].price}
+            carrier={ticketsEntities[id].carrier}
+            segments={ticketsEntities[id].segments}
           />
         ));
     }

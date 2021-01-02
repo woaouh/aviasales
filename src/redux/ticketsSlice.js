@@ -1,19 +1,12 @@
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk, createSlice, createEntityAdapter, nanoid,
+} from '@reduxjs/toolkit';
 
-const initialState = {
-  tickets: [],
-  status: 'idle',
-  sort: 'price',
-  activeFilters: [
-    { active: true, value: 'all' },
-    { active: true, value: '0' },
-    { active: true, value: '1' },
-    { active: true, value: '2' },
-    { active: true, value: '3' },
-  ],
-  error: null,
-};
+const ticketsAdapter = createEntityAdapter({
+  selectId: (ticket) => ticket.id,
+  sortComparer: (a, b) => a.price - b.price,
+});
 
 const SEARCH_ID_API = 'https://front-test.beta.aviasales.ru/search';
 const API = 'https://front-test.beta.aviasales.ru/tickets?searchId=';
@@ -27,22 +20,24 @@ export const fetchTickets = createAsyncThunk(
     const response = await fetch(API + searchIdResponse)
       .then((rspns) => rspns.json())
       .then((data) => data.tickets);
-    // Calculate number of transfers for appropriate filtering
-    const result = response.map((n) => ({
-      ...n,
-      id: nanoid(),
-      transfer:
-        n.segments[0].stops.length === n.segments[1].stops.length
-          ? n.segments[0].stops.length.toString()
-          : 'all',
-    }));
-    return result;
+    return response;
   },
 );
 
 export const ticketsSlice = createSlice({
   name: 'tickets',
-  initialState,
+  initialState: ticketsAdapter.getInitialState({
+    status: 'idle',
+    sort: 'price',
+    activeFilters: [
+      { active: true, value: 'all' },
+      { active: true, value: '0' },
+      { active: true, value: '1' },
+      { active: true, value: '2' },
+      { active: true, value: '3' },
+    ],
+    error: null,
+  }),
   reducers: {
     sortedByFastest(state) {
       state.sort = 'duration';
@@ -60,8 +55,15 @@ export const ticketsSlice = createSlice({
     },
     [fetchTickets.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      // Add any fetched tickets to the array
-      state.tickets = state.tickets.concat(action.payload);
+      // Calculate number of transfers for appropriate filtering
+      ticketsAdapter.setAll(state, action.payload.map((n) => ({
+        ...n,
+        id: nanoid(),
+        transfer:
+          n.segments[0].stops.length === n.segments[1].stops.length
+            ? n.segments[0].stops.length.toString()
+            : 'all',
+      })));
     },
     [fetchTickets.rejected]: (state, action) => {
       state.status = 'failed';
@@ -71,9 +73,7 @@ export const ticketsSlice = createSlice({
 });
 
 export const {
-  sortedByFastest,
-  sortedByCheapest,
-  filteredTickets,
+  sortedByFastest, sortedByCheapest, filteredTickets,
 } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;
