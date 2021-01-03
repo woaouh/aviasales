@@ -5,7 +5,11 @@ start:
 	npm start
 
 lint:
-	npx eslint .
+	./node_modules/.bin/eslint . --ext .js --ext .jsx
 
 test:
 	npm test
+
+push:
+	./node_modules/.bin/eslint . --ext .js --ext .jsx
+	git push
