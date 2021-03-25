@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import classes from './Filters.module.sass';
+import classes from './Filters.module.scss';
 
 import { filteredTickets } from '../../redux/ticketsSlice';
 
@@ -30,7 +30,7 @@ export default function Filters() {
   function renderFilters() {
     return activeFilters.map((filter, index) => (
       <li key={filter.value}>
-        <label className={classes.Filter} htmlFor={filter.value}>
+        <label className={classes.filter} htmlFor={filter.value}>
           <input
             type="checkbox"
             checked={filter.active}
@@ -45,7 +45,7 @@ export default function Filters() {
   }
 
   return (
-    <ul className={classes.Filters}>
+    <ul className={classes.filters}>
       <h2>Количество пересадок</h2>
       {renderFilters()}
     </ul>

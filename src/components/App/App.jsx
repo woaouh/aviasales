@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './App.module.sass';
+import classes from './App.module.scss';
 
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -10,10 +10,10 @@ import TicketsList from '../TicketsList/TicketsList';
 function App() {
   return (
     <main>
-      <header className={classes.Logo}>
+      <header className={classes.logo}>
         <Logo />
       </header>
-      <section className={classes.Container}>
+      <section className={classes.container}>
         <div>
           <Filters />
         </div>

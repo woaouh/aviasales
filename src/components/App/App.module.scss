@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+  
+body,
+html {
+  background-color: #f3f7fa;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  svg {
+    display: block;
+    margin: 40px auto;
+  }
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 780px) {
+  .container {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+}

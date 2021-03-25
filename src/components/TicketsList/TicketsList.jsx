@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import classes from './TicketsList.module.sass';
+import classes from './TicketsList.module.scss';
 
 import Ticket from '../Ticket/Ticket';
 
@@ -43,5 +43,5 @@ export default function TicketsList() {
     }
   }
 
-  return <ul className={classes.TicketsList}>{content}</ul>;
+  return <ul className={classes.tickets}>{content}</ul>;
 }

@@ -1,0 +1,16 @@
+.tickets {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  margin-top: 20px;
+  min-width: 502px;
+  padding: 0;
+}
+
+@media (max-width: 780px) {
+  .tickets {
+    min-width: 280px;
+  }
+}

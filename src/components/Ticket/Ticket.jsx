@@ -2,13 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import classes from './Ticket.module.sass';
+import classes from './Ticket.module.scss';
 
 import Segment from '../Segment/Segment';
 
 export default function Ticket({ price, carrier, segments }) {
   return (
-    <li className={classes.Ticket}>
+    <li className={classes.ticket}>
       <div className={classes.header}>
         <div className={classes.price}>
           {price}
@@ -18,7 +18,7 @@ export default function Ticket({ price, carrier, segments }) {
         <img src={`https://pics.avs.io/99/36/${carrier}.png`} alt="Avia Company Logo" />
       </div>
       {/* Render Segments */}
-      <div className={classes.SegmentsContainer}>
+      <div className={classes.segments}>
         {segments.map((segment) => <Segment segment={segment} key={segment.date} />)}
       </div>
     </li>
