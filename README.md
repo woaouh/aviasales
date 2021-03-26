@@ -2,7 +2,8 @@
 
 # Test task for Front end developer from Aviasales
 
-*To run the project locally:*
+_To run the project locally:_
+
 ```
 $ make install
 $ make start
@@ -22,5 +23,5 @@ There is a filter block on the left side where tickets can be filtered by number
 
 ## Links
 
-* [Test task](https://github.com/KosyanMedia/test-tasks/tree/master/aviasales_frontend)
-* [Live project](https://reverent-mayer-a8d472.netlify.app)
+- [Test task](https://github.com/KosyanMedia/test-tasks/tree/master/aviasales_frontend)
+- [Live project](https://reverent-mayer-a8d472.netlify.app)
