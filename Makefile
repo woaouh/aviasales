@@ -1,20 +1,23 @@
 install:
-	npm install
+	npm ci
 
 start:
 	npm start
 
+editorconfig:
+	npm run editorconfig
+
 lint:
-	./node_modules/.bin/eslint . --ext .js --ext .jsx
+	npm run lint
 
 lint-styles:
-	./node_modules/.bin/stylelint "src/**/*.scss"
+	npm run lint-styles
 
 lint-styles-fix:
-	./node_modules/.bin/stylelint "src/**/*.scss" --fix
+	npm run lint-styles-fix
 
 test:
 	npm test
 
-push: lint lint-styles
+push: editorconfig lint lint-styles
 	git push

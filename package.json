@@ -21,6 +21,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "editorconfig": "editorconfig-checker",
+    "lint": "./node_modules/.bin/eslint . --ext .js --ext .jsx",
+    "lint-styles": "./node_modules/.bin/stylelint 'src/**/*.scss'",
+    "lint-styles-fix": "./node_modules/.bin/stylelint 'src/**/*.scss' --fix",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "editorconfig-checker": "^4.0.1",
     "eslint": "^7.22.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
