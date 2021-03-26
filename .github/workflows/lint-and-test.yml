@@ -9,6 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: make install
+      - run: make editorconfig
       - run: make lint
       - run: make lint-styles
       - run: make test
