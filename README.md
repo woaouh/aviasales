@@ -1,4 +1,4 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/467a8656400706c3db22/maintainability)](https://codeclimate.com/github/woaouh/aviasales/maintainability) [![Lint and Test](https://github.com/woaouh/aviasales/workflows/lint-and-test/badge.svg)](https://github.com/woaouh/aviasales/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/467a8656400706c3db22/maintainability)](https://codeclimate.com/github/woaouh/aviasales/maintainability) [![CI](https://github.com/woaouh/aviasales/workflows/CI/badge.svg)](https://github.com/woaouh/aviasales/actions) [![Netlify Status](https://api.netlify.com/api/v1/badges/cc2fcf39-4509-4b88-a5a1-1f0e7ef6b637/deploy-status)](https://app.netlify.com/sites/reverent-mayer-a8d472/deploys)
 
 # Test task for Front end developer from Aviasales
 
