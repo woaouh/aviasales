@@ -10,16 +10,15 @@ import classes from './TicketsList.module.scss';
 
 const TicketsList = () => {
   const dispatch = useDispatch();
+  const sortedTicketsIds = useSelector(sortTickets);
   const {
     entities, activeFilters, status, error,
   } = useSelector(({ tickets }) => tickets);
-  const sortedTicketsIds = useSelector(sortTickets);
 
   useEffect(() => dispatch(fetchTickets()), []);
 
-  const renderTickets = () => {
-    const areAllFiltersActive = activeFilters.some((filter) => filter.active);
-    return !areAllFiltersActive
+  const renderTickets = () => (
+    !activeFilters.some((filter) => filter.active)
       ? <div>There are no active filters</div>
       : sortedTicketsIds.slice(0, 10).map((id) => (
         <Ticket
@@ -28,8 +27,7 @@ const TicketsList = () => {
           carrier={entities[id].carrier}
           segments={entities[id].segments}
         />
-      ));
-  };
+      )));
 
   return (
     <ul className={classes.tickets}>
