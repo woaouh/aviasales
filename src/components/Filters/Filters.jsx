@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import classes from './Filters.module.scss';
+import { filterTickets } from '../../redux/ticketsSlice';
 
-import { filteredTickets } from '../../redux/ticketsSlice';
+import classes from './Filters.module.scss';
 
 const filterNames = [
   { title: 'Все' },
@@ -13,41 +13,33 @@ const filterNames = [
   { title: '3 пересадки' },
 ];
 
-export default function Filters() {
+const Filters = () => {
   const dispatch = useDispatch();
-  const activeFilters = useSelector(({ tickets }) => tickets.activeFilters);
+  const { activeFilters } = useSelector(({ tickets }) => tickets);
 
   const onFilterChange = ({ target: { checked: active, dataset: { transfer } } }) => {
-    const newFilters = activeFilters.map((filter) => ([filter.value, 'all'].includes(transfer) ? { ...filter, active } : filter));
-    const isAll = newFilters.filter((filter) => filter.value !== 'all').every((filter) => filter.active);
-
-    const resultFilters = Object.assign([...newFilters], { 0: { active: true, value: 'all' } });
-    resultFilters.find((filter) => filter.value === 'all').active = isAll;
-
-    dispatch(filteredTickets(resultFilters));
+    dispatch(filterTickets({ active, transfer }));
   };
-
-  function renderFilters() {
-    return activeFilters.map((filter, index) => (
-      <li key={filter.value}>
-        <label className={classes.filter} htmlFor={filter.value}>
-          <input
-            type="checkbox"
-            checked={filter.active}
-            data-transfer={filter.value}
-            onChange={onFilterChange}
-            id={filter.value}
-          />
-          {filterNames[index].title}
-        </label>
-      </li>
-    ));
-  }
 
   return (
     <ul className={classes.filters}>
       <h2>Количество пересадок</h2>
-      {renderFilters()}
+      {activeFilters.map((filter, index) => (
+        <li key={filter.value}>
+          <label className={classes.filter} htmlFor={filter.value}>
+            <input
+              type="checkbox"
+              checked={filter.active}
+              data-transfer={filter.value}
+              onChange={onFilterChange}
+              id={filter.value}
+            />
+            {filterNames[index].title}
+          </label>
+        </li>
+      ))}
     </ul>
   );
-}
+};
+
+export default Filters;

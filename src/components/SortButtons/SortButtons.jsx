@@ -1,44 +1,40 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 
+import { setSortType } from '../../redux/ticketsSlice';
+
 import classes from './SortButtons.module.scss';
 
-import { sortedByCheapest, sortedByFastest } from '../../redux/ticketsSlice';
+const buttons = [
+  { title: 'Самый дешевый', data: 'price' },
+  { title: 'Самый быстрый', data: 'duration' },
+];
 
-export default function SortButtons() {
+const SortButtons = () => {
   const dispatch = useDispatch();
-  const sort = useSelector(({ tickets }) => tickets.sort);
+  const { sort } = useSelector(({ tickets }) => tickets);
 
-  const buttons = [
-    {
-      title: 'Самый дешевый',
-      className: sort === 'price' ? 'active' : '',
-      onClick: () => dispatch(sortedByCheapest()),
-      id: 1,
-    },
-    {
-      title: 'Самый быстрый',
-      className: sort === 'duration' ? 'active' : '',
-      onClick: () => dispatch(sortedByFastest()),
-      id: 2,
-    },
-  ];
+  const sortBy = ({ target }) => dispatch(setSortType(target.dataset.value));
 
-  function renderButtons() {
-    return buttons.map((btn) => (
-      <button
-        key={btn.id}
-        type="button"
-        className={classnames(classes.btn, {
-          [classes.active]: btn.className,
-        })}
-        onClick={btn.onClick}
-      >
-        {btn.title}
-      </button>
-    ));
-  }
+  return (
+    <div className={classes.buttons}>
+      {buttons.map((btn) => (
+        <button
+          key={btn.data}
+          type="button"
+          data-value={btn.data}
+          className={classnames(classes.btn, {
+            [classes.active]: btn.data === sort,
+          })}
+          onClick={sortBy}
+        >
+          {btn.title}
+        </button>
+      ))}
+    </div>
+  );
+};
 
-  return <div className={classes.buttons}>{renderButtons()}</div>;
-}
+export default SortButtons;

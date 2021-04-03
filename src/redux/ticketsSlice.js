@@ -39,41 +39,40 @@ export const ticketsSlice = createSlice({
     error: null,
   }),
   reducers: {
-    sortedByFastest(state) {
-      state.sort = 'duration';
-    },
-    sortedByCheapest(state) {
-      state.sort = 'price';
-    },
-    filteredTickets(state, action) {
-      state.activeFilters = action.payload;
+    setSortType: (state, { payload }) => { state.sort = payload; },
+    filterTickets: (state, { payload }) => {
+      const newFilters = state.activeFilters.map((filter) => (
+        [filter.value, 'all'].includes(payload.transfer) ? { ...filter, active: payload.active } : filter
+      ));
+      const isAll = newFilters.filter((filter) => filter.value !== 'all').every((filter) => filter.active);
+
+      const resultFilters = Object.assign([...newFilters], { 0: { active: true, value: 'all' } });
+      resultFilters.find((filter) => filter.value === 'all').active = isAll;
+
+      state.activeFilters = resultFilters;
     },
   },
   extraReducers: {
-    [fetchTickets.pending]: (state) => {
-      state.status = 'loading';
-    },
-    [fetchTickets.fulfilled]: (state, action) => {
+    [fetchTickets.pending]: (state) => { state.status = 'loading'; },
+    [fetchTickets.fulfilled]: (state, { payload }) => {
       state.status = 'succeeded';
       // Calculate number of transfers for appropriate filtering
-      ticketsAdapter.setAll(state, action.payload.map((n) => ({
-        ...n,
+      ticketsAdapter.setAll(state, payload.map((ticket) => ({
+        ...ticket,
         id: nanoid(),
         transfer:
-          n.segments[0].stops.length === n.segments[1].stops.length
-            ? n.segments[0].stops.length.toString()
+          ticket.segments[0].stops.length === ticket.segments[1].stops.length
+            ? ticket.segments[0].stops.length.toString()
             : 'all',
       })));
     },
-    [fetchTickets.rejected]: (state, action) => {
+    [fetchTickets.rejected]: (state, { error }) => {
       state.status = 'failed';
-      state.error = action.error.message;
+      state.error = error.message;
     },
   },
 });
 
-export const {
-  sortedByFastest, sortedByCheapest, filteredTickets,
-} = ticketsSlice.actions;
+export const { filterTickets, setSortType } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;

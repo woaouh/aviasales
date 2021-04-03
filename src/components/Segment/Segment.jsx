@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'plural-ru';
 
-import classes from './Segment.module.scss';
-import {
-  convertDateToTime, convertMinsToTime, getArrivalDate,
-} from '../../helpers/helpers';
+import { convertDateToTime, convertMinsToTime, getArrivalDate } from '../../helpers/helpers';
 
-export default function Segment({ segment }) {
+import classes from './Segment.module.scss';
+
+const Segment = ({ segment }) => {
   const departureDate = convertDateToTime(new Date(segment.date));
   const arrivalDate = convertDateToTime(getArrivalDate(segment.date, segment.duration));
   return (
@@ -43,8 +42,10 @@ export default function Segment({ segment }) {
       </li>
     </ul>
   );
-}
+};
 
 Segment.propTypes = {
   segment: PropTypes.objectOf(PropTypes.any).isRequired,
 };
+
+export default Segment;
