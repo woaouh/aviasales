@@ -27,7 +27,8 @@ const TicketsList = () => {
           carrier={entities[id].carrier}
           segments={entities[id].segments}
         />
-      )));
+      ))
+  );
 
   return (
     <ul className={classes.tickets}>
